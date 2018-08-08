@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="1 seconds">
+    <contextName>file-upload</contextName>
+
+    <property scope="context" resource="application.properties" />
+    <!-- direct log messages to stdout -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5p |-%c{35}:%L - %m %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="console" class="ch.qos.logback.classic.AsyncAppender">
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="stdout"/>
+    </appender>
+    <!--  -->
+    <appender name="all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.loggingRoot}/file-upload.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logback.loggingRoot}/file-upload.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}[%t]%-5p %c{36}.%M\(%L\) %m%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <root level="${logback.loggingLevel}">
+        <appender-ref ref="${logback.appender}"/>
+    </root>
+</configuration>
