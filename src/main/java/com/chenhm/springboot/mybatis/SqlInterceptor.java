@@ -12,6 +12,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -48,6 +49,7 @@ public class SqlInterceptor implements Interceptor {
         MappedStatement ms = (MappedStatement) args[0];
         Object parameter = args[1];
         BoundSql boundSql;
+
         //分页查询
         if (args.length == 6) {
             boundSql = (BoundSql) args[5];
@@ -62,7 +64,6 @@ public class SqlInterceptor implements Interceptor {
         long endMills = System.currentTimeMillis();
 
         LOGGER.info("sql【{}】 共耗时 = {} ms", formatSql, endMills - startMills);
-
         return proceed;
     }
 
