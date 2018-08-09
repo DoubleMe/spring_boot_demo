@@ -50,7 +50,7 @@ public class HolidayConfigMapperTest {
     public void list() {
 
         PageHelper.startPage(1,2);
-        Page<HolidayConfigDO> list = holidayConfigMapper.list();
+        Page<HolidayConfigDO> list = holidayConfigMapper.list(2018,2);
 
         System.out.println(list);
     }

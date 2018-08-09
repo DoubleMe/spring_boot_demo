@@ -40,17 +40,11 @@
         <include refid="Base_Column_List"/>
         FROM parking_holiday_config
         <where>
-            <if test="holidayType != null and holidayType != 0">
-                and holiday_type = #{holidayType}
+            <if test="year != null">
+                and holiday_year = #{year}
             </if>
-            <if test="holidayYear != null">
-                and holiday_year = #{holidayYear}
-            </if>
-            <if test="startDate != null">
-                and start_date &gt;= #{startDate}
-            </if>
-            <if test="endDate != null">
-                and end_date &lt;= #{endDate}
+            <if test="type != null and type != 0">
+                and holiday_type = #{type}
             </if>
         </where>
     </select>

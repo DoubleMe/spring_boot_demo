@@ -3,6 +3,7 @@ package com.chenhm.springboot.mapper;
 
 import com.chenhm.springboot.mapper.dataobject.HolidayConfigDO;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 节假日配置表
@@ -49,6 +50,6 @@ public interface HolidayConfigMapper {
      *
      * @return List<THolidayConfigDO>
      */
-    Page<HolidayConfigDO> list();
+    Page<HolidayConfigDO> list(@Param("year") Integer id,@Param("type") Integer type);
 
 }
