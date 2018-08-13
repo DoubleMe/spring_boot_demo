@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @RequestMapping("/")
-    public String index() {
+    public String index(String message) {
 
-        return "Hello Spring Boot 2.0!";
+        return "Hello Spring Boot 2.0!" + "看看中文" + message;
     }
 }

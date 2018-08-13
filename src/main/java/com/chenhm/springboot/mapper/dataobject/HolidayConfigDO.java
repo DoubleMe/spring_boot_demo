@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -28,14 +29,14 @@ public class HolidayConfigDO {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "假期开始日期不能为空")
-    private Date startDate;
+    private LocalDate startDate;
 
     /**
      * 结束日期
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "假期结束日期不能为空")
-    private Date endDate;
+    private LocalDate endDate;
 
     /**
      * 节假日类型
@@ -76,19 +77,23 @@ public class HolidayConfigDO {
         this.holidayYear = holidayYear;
     }
 
-    public Date getStartDate() {
-        return this.startDate;
+    public LocalDate getStartDate() {
+
+        return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
+
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return this.endDate;
+    public LocalDate getEndDate() {
+
+        return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
+
         this.endDate = endDate;
     }
 

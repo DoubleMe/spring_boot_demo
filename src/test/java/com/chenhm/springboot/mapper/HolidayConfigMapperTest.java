@@ -11,6 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,6 +31,13 @@ public class HolidayConfigMapperTest {
     @Test
     public void insert() {
 
+        HolidayConfigDO holidayConfigDO = new HolidayConfigDO();
+        holidayConfigDO.setHolidayType(1);
+        holidayConfigDO.setEndDate(LocalDate.now());
+        holidayConfigDO.setStartDate(LocalDate.MAX);
+        holidayConfigDO.setHolidayYear(2018);
+        holidayConfigDO.setOperator("mmm");
+        holidayConfigMapper.insert(holidayConfigDO);
     }
 
     @Test
@@ -52,6 +62,5 @@ public class HolidayConfigMapperTest {
         PageHelper.startPage(1,2);
         Page<HolidayConfigDO> list = holidayConfigMapper.list(2018,2);
 
-        System.out.println(list);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="true" scanPeriod="30 seconds">
-    <contextName>file-upload</contextName>
+    <contextName>spring-boot-demo</contextName>
 
     <property scope="context" resource="application.properties" />
     <!-- direct log messages to stdout -->
@@ -11,12 +11,15 @@
             <pattern>%d{HH:mm:ss.SSS} [%t] %-5p |-%c{35}:%L - %m %n</pattern>
         </encoder>
     </appender>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
-    <!--  -->
-    <appender name="ROLLINGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logback.loggingRoot}/file-upload.log</file>
+    <!-- common -->
+    <appender name="common" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.loggingRoot}/spring-boot-demo.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logback.loggingRoot}/file-upload.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <FileNamePattern>
+                ${logback.loggingRoot}/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
+            </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1024MB</maxFileSize>
@@ -28,9 +31,56 @@
         </encoder>
     </appender>
 
+    <!-- errorFile -->
+    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.loggingRoot}/spring-boot-demo-error.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${logback.loggingRoot}/error/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
+            </FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%c{35}:%L - %m %n</pattern>
+        </encoder>
+    </appender>
 
-    <root level="info">
+    <!-- SQL 文件 -->
+    <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.loggingRoot}/spring-boot-demo-sql.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${logback.loggingRoot}/sql/spring-boot-demo-sql.log.%d.%i.gz
+            </FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}[%t]%-5p %c{36}.%M\(%L\) %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 定义SQL日志 -->
+    <logger name="SQL" level="info" >
+        <appender-ref ref="SQL" />
+    </logger>
+
+    <root level="debug">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="ROLLINGFILE"/>
+        <appender-ref ref="common"/>
+        <appender-ref ref="errorFile"/>
     </root>
 </configuration>

@@ -17,7 +17,7 @@
     {
       "sourceType": "com.chenhm.springboot.mybatis.SqlHelperProperties",
       "name": "sqlhelper.show-sql",
-      "type": "java.lang.boolean"
+      "type": "java.lang.Boolean"
     }
   ]
 }
