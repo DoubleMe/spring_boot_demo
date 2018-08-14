@@ -1,7 +1,12 @@
 package com.chenhm.springboot.controller;
 
+import com.chenhm.springboot.mapper.dataobject.HolidayConfigDO;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * HelloController
@@ -14,9 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @RequestMapping("/")
-    public String index(String message) {
+    @RequestMapping("/hello")
+    @ResponseBody
+    public String index() {
 
-        return "Hello Spring Boot 2.0!" + "看看中文" + message;
+        throw new RuntimeException("hello world");
+    }
+
+    @RequestMapping("/validate")
+    @ResponseBody
+    public String validate(@Valid HolidayConfigDO holidayConfigDO, BindingResult result) {
+
+        System.out.println(result.hasErrors());
+        return "ss";
     }
 }

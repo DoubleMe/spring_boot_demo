@@ -14,7 +14,7 @@
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
     <!-- common -->
-    <appender name="common" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="COMMON" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logback.loggingRoot}/spring-boot-demo.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
@@ -78,9 +78,7 @@
         <appender-ref ref="SQL" />
     </logger>
 
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="common"/>
-        <appender-ref ref="errorFile"/>
+    <root level="${logback.loggingLevel}">
+        <appender-ref ref="${logback.appender}"/>
     </root>
 </configuration>
