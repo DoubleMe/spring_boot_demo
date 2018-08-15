@@ -1,5 +1,6 @@
 package com.chenhm.springboot.mapper;
 
+import com.chenhm.springboot.BaseTest;
 import com.chenhm.springboot.mapper.dataobject.HolidayConfigDO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -21,9 +22,8 @@ import static org.junit.Assert.*;
  * @date 2018/8/8 17:16
  * @since V1.0
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class HolidayConfigMapperTest {
+
+public class HolidayConfigMapperTest extends BaseTest {
 
     @Resource
     private HolidayConfigMapper holidayConfigMapper;

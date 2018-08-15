@@ -1,5 +1,6 @@
 package com.chenhm.springboot.controller;
 
+import com.chenhm.springboot.BaseControllerTest;
 import org.junit.Test;
 
 /**

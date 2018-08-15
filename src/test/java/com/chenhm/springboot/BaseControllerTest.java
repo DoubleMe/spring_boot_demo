@@ -1,4 +1,4 @@
-package com.chenhm.springboot.controller;
+package com.chenhm.springboot;
 
 import com.chenhm.springboot.util.JsonUtils;
 import org.junit.Before;

@@ -36,7 +36,9 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator:2.0.3.RELEASE"
     compile "org.springframework.boot:spring-boot-starter-validation:2.0.3.RELEASE"
     compile "org.springframework.boot:spring-boot-starter-aop:2.0.3.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-redis:+"
     compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
+    compile 'org.springframework.data:spring-data-redis:2.0.9.RELEASE'
 
     compile "mysql:mysql-connector-java:5.1.43"
 
