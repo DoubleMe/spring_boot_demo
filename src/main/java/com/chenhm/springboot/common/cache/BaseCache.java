@@ -14,17 +14,17 @@ import org.springframework.stereotype.Component;
 public class BaseCache {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
 
-    public String get(String key) {
+    public Object get(String key) {
 
         return redisTemplate.opsForValue().get(key);
     }
 
-    public void set(String key, String object) {
+    public void set(String key, Object object) {
 
-         redisTemplate.opsForValue().set(key,object);
+        redisTemplate.opsForValue().set(key, object);
     }
 
 

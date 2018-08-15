@@ -1,13 +1,12 @@
-package com.chenhm.springboot.common.cache;
+package com.chenhm.springboot.common;
 
 import com.chenhm.springboot.BaseTest;
+import com.chenhm.springboot.common.cache.BaseCache;
 import com.chenhm.springboot.mapper.dataobject.HolidayConfigDO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-
-import static org.junit.Assert.*;
 
 /**
  * @author chen-hongmin
@@ -25,6 +24,8 @@ public class BaseCacheTest extends BaseTest {
     public void get() {
 
         Object o = baseCache.get(KEY);
+
+        System.out.println(o);
     }
 
     @Test
@@ -35,6 +36,6 @@ public class BaseCacheTest extends BaseTest {
         holidayConfigDO.setHolidayYear(2018);
         holidayConfigDO.setEndDate(LocalDate.now());
 
-        baseCache.set(KEY, "");
+        baseCache.set(KEY, holidayConfigDO);
     }
 }

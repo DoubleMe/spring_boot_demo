@@ -7,6 +7,12 @@ version = '1.0.0-SNAPSHOT'
 
 description = "spring-boot-demo"
 
+ext {
+    spring_boot_version = "2.0.2.RELEASE"
+    env = System.getProperty("env") ?: "dev"
+    version_suffix = env == 'dev' ? '-SNAPSHOT' : ''
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
@@ -48,18 +54,17 @@ task initSourceFolders {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter:2.0.3.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter:${spring_boot_version}"
+    compile "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
+    compile "org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}"
+    compile "org.springframework.boot:spring-boot-starter-validation:${spring_boot_version}"
+    compile "org.springframework.boot:spring-boot-starter-aop:${spring_boot_version}"
+    compile "org.springframework.boot:spring-boot-starter-data-redis:${spring_boot_version}"
     compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
-    compile "org.springframework.boot:spring-boot-starter-actuator:2.0.3.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-validation:2.0.3.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-aop:2.0.3.RELEASE"
-    compile "org.springframework.boot:spring-boot-starter-redis:+"
     compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
-    compile 'org.springframework.data:spring-data-redis:2.0.9.RELEASE'
 
     compile "mysql:mysql-connector-java:5.1.43"
 
 
-    testCompile("org.springframework.boot:spring-boot-starter-test:2.0.3.RELEASE")
+    testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
 }
