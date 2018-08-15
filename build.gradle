@@ -28,6 +28,24 @@ idea {
         }
     }
 }
+task cleanAll << {
+    println "Clean project.."
+    delete buildDir
+}
+
+task init << {
+    println '+---------------------------------------------------+'
+    println '|                                                   |'
+    println "| B U I L D I N G $project.name $version ...         "
+    println '|                                                   |'
+    println '+---------------------------------------------------+'
+}
+
+
+task initSourceFolders {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter:2.0.3.RELEASE"
