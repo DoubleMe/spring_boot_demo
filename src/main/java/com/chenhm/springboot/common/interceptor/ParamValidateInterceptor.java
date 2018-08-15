@@ -25,7 +25,7 @@ public class ParamValidateInterceptor {
     }
 
     @Before("validPointcut() && args(..,bindingResult)")
-    public void Interceptor(BindingResult bindingResult) {
+    public void paramValid(BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             Optional<ObjectError> first = bindingResult.getAllErrors().stream().findFirst();

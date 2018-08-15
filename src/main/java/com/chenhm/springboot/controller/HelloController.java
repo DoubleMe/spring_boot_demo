@@ -1,5 +1,7 @@
 package com.chenhm.springboot.controller;
 
+import com.chenhm.springboot.common.ResponseUtils;
+import com.chenhm.springboot.controller.vo.HolidayConfigVO;
 import com.chenhm.springboot.mapper.dataobject.HolidayConfigDO;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +30,15 @@ public class HelloController {
 
     @RequestMapping("/validate")
     @ResponseBody
-    public String validate(@Valid HolidayConfigDO holidayConfigDO, BindingResult result) {
+    public Object validate(@Valid HolidayConfigDO holidayConfigDO, BindingResult result) {
 
-        System.out.println(result.hasErrors());
-        return "ss";
+        return ResponseUtils.load(holidayConfigDO, holiday -> {
+
+            HolidayConfigVO holidayConfigVO = new HolidayConfigVO();
+            holidayConfigVO.setHolidayType(holiday.getHolidayType() + 100);
+            holidayConfigVO.setHolidayYear(holiday.getHolidayYear());
+
+            return holidayConfigVO;
+        });
     }
 }

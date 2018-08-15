@@ -88,5 +88,21 @@ public class RestClient {
         return exchange.getBody();
     }
 
+    /**
+     * Execute the HTTP method to the given URI template, writing the given request entity to the request, and
+     * returns the response as {@link ResponseEntity body}.
+     *
+     * @param url    http 地址
+     * @param entity entity
+     * @param clz    类型
+     * @param <T>
+     * @return the response body
+     */
+    public static <T> T post(String url, HttpEntity entity, Class<T> clz) {
+
+        ResponseEntity<T> exchange = restTemplate().exchange(url, HttpMethod.POST, entity, clz);
+        return exchange.getBody();
+    }
+
 
 }

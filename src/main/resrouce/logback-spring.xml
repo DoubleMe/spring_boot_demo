@@ -3,9 +3,9 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <contextName>spring-boot-demo</contextName>
 
-    <property scope="context" resource="application.properties" />
+    <property name="LOGGING_PATH" value="${logging.path}" />
     <!-- direct log messages to stdout -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%t] %-5p |-%c{35}:%L - %m %n</pattern>
@@ -14,11 +14,11 @@
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
     <!-- common -->
-    <appender name="COMMON" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logback.loggingRoot}/spring-boot-demo.log</file>
+    <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_PATH}/spring-boot-demo.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${logback.loggingRoot}/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
+                ${LOGGING_PATH}/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -32,8 +32,8 @@
     </appender>
 
     <!-- errorFile -->
-    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logback.loggingRoot}/spring-boot-demo-error.log</file>
+    <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_PATH}/spring-boot-demo-error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -42,7 +42,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${logback.loggingRoot}/error/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
+                ${LOGGING_PATH}/error/spring-boot-demo-error.%d{yyyy-MM-dd}.%i.log.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -57,10 +57,10 @@
 
     <!-- SQL 文件 -->
     <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logback.loggingRoot}/spring-boot-demo-sql.log</file>
+        <file>${LOGGING_PATH}/spring-boot-demo-sql.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${logback.loggingRoot}/sql/spring-boot-demo-sql.log.%d.%i.gz
+                ${LOGGING_PATH}/sql/spring-boot-demo-sql.log.%d.%i.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -78,7 +78,21 @@
         <appender-ref ref="SQL" />
     </logger>
 
-    <root level="${logback.loggingLevel}">
-        <appender-ref ref="${logback.appender}"/>
-    </root>
+    <!--<root level="${logback.loggingLevel}">-->
+        <!--<appender-ref ref="${logback.appender}"/>-->
+    <!--</root>-->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="FILEINFO"/>
+            <appender-ref ref="FILEERROR"/>
+        </root>
+    </springProfile>
+
+
+    <springProfile name="dev">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
 </configuration>
