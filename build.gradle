@@ -1,11 +1,9 @@
+plugins {
+    id "org.springframework.boot" version "2.0.4.RELEASE"
+}
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
-
-group = 'com.chenhm'
-version = '1.0.0-SNAPSHOT'
-
-description = "spring-boot-demo"
 
 ext {
     spring_boot_version = "2.0.2.RELEASE"
@@ -19,13 +17,12 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-//configurations {
-//    compile.exclude module: 'commons-logging'
-//}
 repositories {
-
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
 }
+
+
 idea {
     module {
         excludeDirs = []
@@ -48,6 +45,8 @@ task init << {
 }
 
 
+
+
 task initSourceFolders {
     sourceSets*.java.srcDirs*.each { it.mkdirs() }
     sourceSets*.resources.srcDirs*.each { it.mkdirs() }
@@ -64,7 +63,6 @@ dependencies {
     compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
 
     compile "mysql:mysql-connector-java:5.1.43"
-
 
     testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
 }

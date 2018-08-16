@@ -48,8 +48,10 @@ public interface HolidayConfigMapper {
     /**
      * 列表查询
      *
+     * @param id
+     * @param type
      * @return List<THolidayConfigDO>
      */
-    Page<HolidayConfigDO> list(@Param("year") Integer id,@Param("type") Integer type);
+    Page<HolidayConfigDO> list(@Param("year") Integer id, @Param("type") Integer type);
 
 }
