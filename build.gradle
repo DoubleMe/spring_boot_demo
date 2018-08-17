@@ -1,5 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
+    }
+}
+
+
 ext {
-    spring_boot_version = "2.0.2.RELEASE"
     env = System.getProperty("env") ?: "dev"
     version_suffix = env == 'dev' ? '-SNAPSHOT' : ''
 }
@@ -8,8 +19,9 @@ ext {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
     apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -52,7 +64,7 @@ subprojects {
 
 }
 
-project("spring-boot-demo-service"){
+project("spring-boot-demo-service") {
     dependencies {
         compile "org.springframework.boot:spring-boot-starter:${spring_boot_version}"
         compile "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
@@ -68,8 +80,10 @@ project("spring-boot-demo-service"){
     }
 }
 
-project("spring-boot-demo-web"){
-    dependencies{
+project("spring-boot-demo-web") {
+
+
+    dependencies {
         compile project(":spring-boot-demo-service")
         testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
     }
