@@ -1,68 +1,77 @@
-plugins {
-    id "org.springframework.boot" version "2.0.4.RELEASE"
-}
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'idea'
-
 ext {
     spring_boot_version = "2.0.2.RELEASE"
     env = System.getProperty("env") ?: "dev"
     version_suffix = env == 'dev' ? '-SNAPSHOT' : ''
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-repositories {
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-    mavenCentral()
-}
 
 
-idea {
-    module {
-        excludeDirs = []
-        [".idea", ".gradle", 'gradle', '.settings', 'build', 'classes'].each {
-            excludeDirs << file("$it")
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+    }
+
+    task initSourceFolders {
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    }
+
+    idea {
+        module {
+            excludeDirs = []
+            [".idea", ".gradle", 'gradle', '.settings', 'build', 'classes'].each {
+                excludeDirs << file("$it")
+            }
         }
     }
-}
-task cleanAll << {
-    println "Clean project.."
-    delete buildDir
-}
 
-task init << {
-    println '+---------------------------------------------------+'
-    println '|                                                   |'
-    println "| B U I L D I N G $project.name $version ...         "
-    println '|                                                   |'
-    println '+---------------------------------------------------+'
-}
+    task cleanAll << {
+        println "Clean project.."
+        delete buildDir
+    }
 
-
+    task init << {
+        println '+-----------------------------------------------------------+'
+        println '|                                                           |'
+        println "| B U I L D I N G $project.name $version"
+        println '|                                                           |'
+        println '+-----------------------------------------------------------+'
+    }
 
 
-task initSourceFolders {
-    sourceSets*.java.srcDirs*.each { it.mkdirs() }
-    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
 }
 
-dependencies {
-    compile "org.springframework.boot:spring-boot-starter:${spring_boot_version}"
-    compile "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
-    compile "org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}"
-    compile "org.springframework.boot:spring-boot-starter-validation:${spring_boot_version}"
-    compile "org.springframework.boot:spring-boot-starter-aop:${spring_boot_version}"
-    compile "org.springframework.boot:spring-boot-starter-data-redis:${spring_boot_version}"
-    compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
-    compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
+project("spring-boot-demo-service"){
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter-validation:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter-aop:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter-data-redis:${spring_boot_version}"
+        compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
+        compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
+        compile "mysql:mysql-connector-java:5.1.43"
 
-    compile "mysql:mysql-connector-java:5.1.43"
-
-    testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+        testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+    }
 }
+
+project("spring-boot-demo-web"){
+    dependencies{
+        compile project(":spring-boot-demo-service")
+        testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+    }
+}
+
