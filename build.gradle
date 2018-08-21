@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE"
+    }
+}
+
 ext {
     spring_boot_version = '2.0.2.RELEASE'
     env = System.getProperty("env") ?: "dev"
@@ -25,6 +36,9 @@ task cleanAll << {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -54,6 +68,7 @@ subprojects {
 
 project("spring-boot-demo-service") {
     dependencies {
+
         compile "org.springframework.boot:spring-boot-starter:$spring_boot_version"
         compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
         compile "org.springframework.boot:spring-boot-starter-actuator:$spring_boot_version"
@@ -64,7 +79,6 @@ project("spring-boot-demo-service") {
         compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
         compile "mysql:mysql-connector-java:5.1.43"
 
-
         testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
 }
@@ -73,7 +87,10 @@ project("spring-boot-demo-web") {
     apply plugin: 'war'
 
     dependencies {
+
         compile project(":spring-boot-demo-service")
+        compile "com.chenhm:spring-boot-demo-api:1.0.0-SNAPSHOT"
+
         testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
 }
@@ -95,6 +112,7 @@ project("spring-boot-demo-api") {
             }
         }
     }
+    //jar包名称组成：[baseName]-[appendix]-[version]-[classifier].[extension]
     //打包class文件
     task shareJar(type: Jar, group: task_gorup) {
         from sourceSets.main.output
