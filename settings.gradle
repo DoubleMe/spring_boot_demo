@@ -1,7 +1,10 @@
 rootProject.name = 'spring-boot-demo'
 
+
 include 'spring-boot-demo-service'
 include 'spring-boot-demo-web'
+include 'spring-boot-demo-api'
 
 findProject(":spring-boot-demo-service")?.name="spring-boot-demo-service"
 findProject(":spring-boot-demo-web")?.name="spring-boot-demo-web"
+findProject(":spring-boot-demo-api")?.name="spring-boot-demo-api"

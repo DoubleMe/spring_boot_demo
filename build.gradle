@@ -1,27 +1,30 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
-    }
-}
-
-
 ext {
+    spring_boot_version = '2.0.2.RELEASE'
     env = System.getProperty("env") ?: "dev"
     version_suffix = env == 'dev' ? '-SNAPSHOT' : ''
+    snapshots_url = "http://localhost:8089/repository/maven-snapshots/"
+    releases_url = "http://localhost:8089/repository/maven-releases/"
+    maven_user = "chenhm"
+    maven_pass = "chenhm"
+    task_gorup = "nexus"
 }
 
+task init << {
+    println '+-----------------------------------------------------------+'
+    println '|                                                           |'
+    println "| B U I L D I N G $project.name $version $project.group"
+    println '|                                                           |'
+    println '+-----------------------------------------------------------+'
+}
 
+task cleanAll << {
+    println "Clean project.."
+    delete buildDir
+}
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -30,8 +33,8 @@ subprojects {
     }
 
     repositories {
-        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-        mavenCentral()
+//        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "http://localhost:8089/repository/maven-public/" }
     }
 
     task initSourceFolders {
@@ -47,45 +50,85 @@ subprojects {
             }
         }
     }
-
-    task cleanAll << {
-        println "Clean project.."
-        delete buildDir
-    }
-
-    task init << {
-        println '+-----------------------------------------------------------+'
-        println '|                                                           |'
-        println "| B U I L D I N G $project.name $version"
-        println '|                                                           |'
-        println '+-----------------------------------------------------------+'
-    }
-
-
 }
 
 project("spring-boot-demo-service") {
     dependencies {
-        compile "org.springframework.boot:spring-boot-starter:${spring_boot_version}"
-        compile "org.springframework.boot:spring-boot-starter-web:${spring_boot_version}"
-        compile "org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}"
-        compile "org.springframework.boot:spring-boot-starter-validation:${spring_boot_version}"
-        compile "org.springframework.boot:spring-boot-starter-aop:${spring_boot_version}"
-        compile "org.springframework.boot:spring-boot-starter-data-redis:${spring_boot_version}"
+        compile "org.springframework.boot:spring-boot-starter:$spring_boot_version"
+        compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
+        compile "org.springframework.boot:spring-boot-starter-actuator:$spring_boot_version"
+        compile "org.springframework.boot:spring-boot-starter-validation:$spring_boot_version"
+        compile "org.springframework.boot:spring-boot-starter-aop:$spring_boot_version"
+        compile "org.springframework.boot:spring-boot-starter-data-redis:$spring_boot_version"
         compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
         compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
         compile "mysql:mysql-connector-java:5.1.43"
 
-        testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+
+        testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
 }
 
 project("spring-boot-demo-web") {
-
+    apply plugin: 'war'
 
     dependencies {
         compile project(":spring-boot-demo-service")
-        testCompile "org.springframework.boot:spring-boot-starter-test:${spring_boot_version}"
+        testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
+}
+
+project("spring-boot-demo-api") {
+
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    //上传jar包到私服
+    uploadArchives {
+        repositories.mavenDeployer {
+            String v = "$version$version_suffix"
+            String url = v.endsWith("SNAPSHOT") ? "$snapshots_url" : "$releases_url"
+            pom.version = v
+
+            repository(url: url) {
+                authentication(userName: "$maven_user", password: "$maven_pass")
+            }
+        }
+    }
+    //打包class文件
+    task shareJar(type: Jar, group: task_gorup) {
+        from sourceSets.main.output
+        destinationDir file("$buildDir/libs")
+        includes['com/chenhm/springboot/**']
+        manifest {
+            attributes 'packageName': "$project.name", 'Built-By': "$maven_user", 'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': "$version$version_suffix"
+        }
+    }
+
+    //打包源码
+    task shareSourceJar(type: Jar, group: task_gorup) {
+
+        from sourceSets.main.allSource
+        classifier "sources"
+        destinationDir file("$buildDir/libs")
+        includes['com/chenhm/springboot/**']
+        manifest {
+            attributes 'packageName': "$project.name", 'Built-By': "$maven_user", 'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': "$version"
+        }
+    }
+    artifacts {
+        archives shareSourceJar
+    }
+
+    //自定义任务,依赖shareJar,shareSourceJar,uploadArchives
+    task publishToNexus(dependsOn: [shareJar, shareSourceJar, uploadArchives], group: task_gorup) {
+
+        println '+-----------------------------------------------------------------------------+'
+        println '|                                                                             |'
+        println "| B U I L D I N G $project.name:$version$version_suffix SUCCESSFUL"
+        println '|                                                                             |'
+        println '+-----------------------------------------------------------------------------+'
+    }
+
 }
 
