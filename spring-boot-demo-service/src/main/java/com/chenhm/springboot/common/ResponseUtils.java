@@ -98,6 +98,9 @@ public class ResponseUtils {
      */
     public static <T, R> Response<R> load(T data, BaseConverter<T, R> converter) {
 
+        if (data == null) {
+            return response(ResponseCode.SUCCESS, "", null);
+        }
 
         return response(ResponseCode.SUCCESS, "", converter.apply(data));
     }

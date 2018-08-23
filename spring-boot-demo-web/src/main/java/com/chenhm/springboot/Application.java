@@ -4,6 +4,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.HashMap;
+
 
 /**
  * spring_boot 启动类
@@ -20,4 +22,5 @@ public class Application {
 
         SpringApplication.run(Application.class, args);
     }
+
 }
