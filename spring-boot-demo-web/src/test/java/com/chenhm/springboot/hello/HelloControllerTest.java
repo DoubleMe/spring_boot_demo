@@ -15,7 +15,13 @@ public class HelloControllerTest extends BaseControllerTest {
     @Test
     public void getHello() {
 
-        String doGet = doGet("");
+        String doGet = doGet("/hello");
+        System.out.println(doGet);
+    }
+    @Test
+    public void getValidate() {
+
+        String doGet = doGet("/validate");
         System.out.println(doGet);
     }
 }
