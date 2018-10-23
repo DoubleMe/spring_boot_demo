@@ -1,23 +1,15 @@
-buildscript {
+
+allprojects {
     repositories {
-        mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE"
+        maven {
+            name "aliyunmaven"
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+        }
     }
 }
 
 ext {
     spring_boot_version = '2.0.2.RELEASE'
-    env = System.getProperty("env") ?: "dev"
-    version_suffix = env == 'dev' ? '-SNAPSHOT' : ''
-    snapshots_url = "http://localhost:8089/repository/maven-snapshots/"
-    releases_url = "http://localhost:8089/repository/maven-releases/"
-    maven_user = "chenhm"
-    maven_pass = "chenhm"
-    task_gorup = "nexus"
 }
 
 task init << {
@@ -37,19 +29,12 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
 
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
 
-    repositories {
-//        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-        maven { url "http://localhost:8089/repository/maven-public/" }
-    }
 
     task initSourceFolders {
         sourceSets*.java.srcDirs*.each { it.mkdirs() }
@@ -87,66 +72,9 @@ project("spring-boot-demo-web") {
     apply plugin: 'war'
 
     dependencies {
-
         compile project(":spring-boot-demo-service")
-        compile "com.chenhm:spring-boot-demo-api:1.0.0-SNAPSHOT"
-
         testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
 }
 
-project("spring-boot-demo-api") {
-
-    apply plugin: 'maven'
-    apply plugin: 'maven-publish'
-
-    //上传jar包到私服
-    uploadArchives {
-        repositories.mavenDeployer {
-            String v = "$version$version_suffix"
-            String url = v.endsWith("SNAPSHOT") ? "$snapshots_url" : "$releases_url"
-            pom.version = v
-
-            repository(url: url) {
-                authentication(userName: "$maven_user", password: "$maven_pass")
-            }
-        }
-    }
-    //jar包名称组成：[baseName]-[appendix]-[version]-[classifier].[extension]
-    //打包class文件
-    task shareJar(type: Jar, group: task_gorup) {
-        from sourceSets.main.output
-        destinationDir file("$buildDir/libs")
-        includes['com/chenhm/springboot/**']
-        manifest {
-            attributes 'packageName': "$project.name", 'Built-By': "$maven_user", 'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': "$version$version_suffix"
-        }
-    }
-
-    //打包源码
-    task shareSourceJar(type: Jar, group: task_gorup) {
-
-        from sourceSets.main.allSource
-        classifier "sources"
-        destinationDir file("$buildDir/libs")
-        includes['com/chenhm/springboot/**']
-        manifest {
-            attributes 'packageName': "$project.name", 'Built-By': "$maven_user", 'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': "$version"
-        }
-    }
-    artifacts {
-        archives shareSourceJar
-    }
-
-    //自定义任务,依赖shareJar,shareSourceJar,uploadArchives
-    task publishToNexus(dependsOn: [shareJar, shareSourceJar, uploadArchives], group: task_gorup) {
-
-        println '+-----------------------------------------------------------------------------+'
-        println '|                                                                             |'
-        println "| B U I L D I N G $project.name:$version$version_suffix SUCCESSFUL"
-        println '|                                                                             |'
-        println '+-----------------------------------------------------------------------------+'
-    }
-
-}
 

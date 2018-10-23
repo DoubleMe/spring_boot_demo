@@ -1,6 +1,5 @@
 rootProject.name = 'spring-boot-demo'
 
-
 include 'spring-boot-demo-service'
 include 'spring-boot-demo-web'
 include 'spring-boot-demo-api'

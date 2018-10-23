@@ -27,7 +27,6 @@ import java.util.Map;
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {"env=dev"})
 @AutoConfigureMockMvc
 public class BaseControllerTest {
 

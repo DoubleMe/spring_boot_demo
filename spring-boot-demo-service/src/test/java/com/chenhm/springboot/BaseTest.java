@@ -11,6 +11,5 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @since V1.0
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {"env=dev"})
 public class BaseTest {
 }
