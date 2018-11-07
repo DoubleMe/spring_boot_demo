@@ -1,5 +1,0 @@
-Manifest-Version: 1.0.0
-Built-By: chenhm
-Built-date: 2018-09-20 16:59:30
-packageName: spring-boot-demo-api
-

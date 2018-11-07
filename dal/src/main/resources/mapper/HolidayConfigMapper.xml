@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--节假日配置表-->
+<mapper namespace="com.chenhm.springboot.mapper.HolidayConfigMapper">
+
+    <!--the base resultMap-->
+    <resultMap id="BaseResultMap" type="com.chenhm.springboot.mapper.holiday.domain.HolidayConfigDO">
+        <id column="id" property="id"/>
+        <result column="holiday_year" property="holidayYear"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="holiday_type" property="holidayType"/>
+        <result column="operator" property="operator"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!--the Base_Column_List-->
+    <sql id="Base_Column_List">
+        id, holiday_year, start_date, end_date, holiday_type, operator, create_time, update_time
+    </sql>
+
+    <!--新增-->
+    <insert id="insert">
+        INSERT INTO parking_holiday_config (id, holiday_year, start_date, end_date, holiday_type, operator)
+        VALUES (#{id}, #{holidayYear}, #{startDate}, #{endDate}, #{holidayType}, #{operator})
+    </insert>
+
+    <!--主键查询-->
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM parking_holiday_config
+        WHERE id = #{id}
+    </select>
+
+    <!--列表查询-->
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM parking_holiday_config
+        <where>
+            <if test="year != null">
+                and holiday_year = #{year}
+            </if>
+            <if test="type != null and type != 0">
+                and holiday_type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--更新-->
+    <update id="update">
+        UPDATE parking_holiday_config
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="holidayYear != null">
+                holiday_year = #{holidayYear},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate},
+            </if>
+            <if test="holidayType != null">
+                holiday_type = #{holidayType},
+            </if>
+            <if test="operator != null">
+                operator = #{operator},
+            </if>
+            update_time = now(),
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!--根据主键删除-->
+    <delete id="delById">
+        DELETE FROM parking_holiday_config
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

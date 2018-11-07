@@ -1,9 +1,9 @@
 package com.chenhm.springboot.interceptor;
 
-import com.chenhm.springboot.common.Response;
-import com.chenhm.springboot.common.ResponseUtils;
+import com.chenhm.springboot.common.response.Response;
+import com.chenhm.springboot.common.response.ResponseUtils;
 import com.chenhm.springboot.common.constant.BizConstants;
-import com.chenhm.springboot.common.exception.AbstractException;
+import com.chenhm.springboot.exception.AbstractException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

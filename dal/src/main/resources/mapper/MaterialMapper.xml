@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--素材库-->
+<mapper namespace="com.chenhm.springboot.mapper.material.MaterialMapper">
+
+    <!--the base resultMap-->
+    <resultMap id="BaseResultMap" type="com.chenhm.springboot.mapper.material.domain.MaterialDO" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="material_code" property="materialCode" jdbcType="VARCHAR" />
+        <result column="file_id" property="fileId" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="category" property="category" jdbcType="INTEGER" />
+        <result column="source" property="source" jdbcType="INTEGER" />
+        <result column="operator" property="operator" jdbcType="VARCHAR" />
+        <result column="operator_id" property="operatorId" jdbcType="BIGINT" />
+        <result column="status" property="status" jdbcType="BIT" />
+        <result column="del_flag" property="delFlag" jdbcType="BIT" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <!--the Base_Column_List-->
+    <sql id="Base_Column_List" >
+        id, 
+        material_code, 
+        file_id, 
+        title, 
+        category, 
+        source, 
+        operator, 
+        operator_id, 
+        status, 
+        del_flag, 
+        update_time, 
+        create_time
+    </sql>
+
+    <!--the Where_Clause-->
+    <sql id="Where_Clause" >
+        <where>
+            <if test="data.id != null">
+                AND id = #{data.id,jdbcType=BIGINT}
+            </if>
+            <if test="data.materialCode != null">
+                AND material_code = #{data.materialCode,jdbcType=VARCHAR}
+            </if>
+            <if test="data.fileId != null">
+                AND file_id = #{data.fileId,jdbcType=VARCHAR}
+            </if>
+            <if test="data.title != null">
+                AND title = #{data.title,jdbcType=VARCHAR}
+            </if>
+            <if test="data.category != null">
+                AND category = #{data.category,jdbcType=INTEGER}
+            </if>
+            <if test="data.source != null">
+                AND source = #{data.source,jdbcType=INTEGER}
+            </if>
+            <if test="data.operator != null">
+                AND operator = #{data.operator,jdbcType=VARCHAR}
+            </if>
+            <if test="data.operatorId != null">
+                AND operator_id = #{data.operatorId,jdbcType=BIGINT}
+            </if>
+            <if test="data.status != null">
+                AND status = #{data.status,jdbcType=BIT}
+            </if>
+            <choose>
+                <when test="data.delFlag != null" >
+                    AND del_flag = #{data.delFlag,jdbcType=BIT}
+                </when>
+                <otherwise>
+                    AND del_flag = 0
+                </otherwise>
+            </choose>
+            <if test="data.updateTime != null">
+                AND update_time = #{data.updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="data.createTime != null">
+                AND create_time = #{data.createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </sql>
+
+    <!--新增-->
+    <insert id="insert" parameterType="com.chenhm.springboot.mapper.holiday.domain.CntMaterialDO" >
+        INSERT INTO cnt_material (
+            id,
+            material_code,
+            file_id,
+            title,
+            category,
+            source,
+            operator,
+            operator_id,
+            status,
+            del_flag
+        )
+        VALUES (
+            #{id,jdbcType=BIGINT},
+            #{materialCode,jdbcType=VARCHAR},
+            #{fileId,jdbcType=VARCHAR},
+            #{title,jdbcType=VARCHAR},
+            #{category,jdbcType=INTEGER},
+            #{source,jdbcType=INTEGER},
+            #{operator,jdbcType=VARCHAR},
+            #{operatorId,jdbcType=BIGINT},
+            #{status,jdbcType=BIT},
+            #{delFlag,jdbcType=BIT}
+        )
+    </insert>
+
+    <!--主键查询-->
+    <select id="getById" resultMap="BaseResultMap" >
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM cnt_material
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!--列表查询-->
+    <select id="list" resultMap="BaseResultMap" >
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM cnt_material
+        <if test="data != null">
+            <include refid="Where_Clause" />
+        </if>
+    </select>
+
+    <!--更新-->
+    <update id="update" >
+        UPDATE cnt_material
+        <set>
+            <if test="materialCode != null">
+                material_code = #{materialCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fileId != null">
+                file_id = #{fileId,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=INTEGER},
+            </if>
+            <if test="source != null">
+                source = #{source,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorId != null">
+                operator_id = #{operatorId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--根据主键删除-->
+    <update id="delById" >
+        UPDATEcnt_material
+        SET del_flag = 1
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>
