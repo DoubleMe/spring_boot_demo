@@ -117,7 +117,7 @@ public class ResponseUtils {
      * @param data 消息实体
      * @return response
      */
-    public static <T, R> Response<R> load(T data, Function<T, R> function) {
+    public static <T, R> Response<R> success(T data, Function<T, R> function) {
 
         if (data == null) {
             return response(ResponseCode.SUCCESS, null);
@@ -151,7 +151,7 @@ public class ResponseUtils {
      */
     public static <T, R> PageResponse<R> loadPageList(PageResultBO<T> pageResultBO, Function<T, R> function) {
 
-        PageResponse<R> pageResponse = new PageResponse();
+        PageResponse<R> pageResponse = new PageResponse<>();
         pageResponse.setPageNum(pageResultBO.getPageNum());
         pageResponse.setPageSize(pageResultBO.getPageSize());
         pageResponse.setTotal(pageResultBO.getTotal());

@@ -1,13 +1,15 @@
 rootProject.name = 'spring-boot-demo'
 
-include 'spring-boot-demo-service'
-include 'spring-boot-demo-web'
-include 'spring-boot-demo-api'
-include 'spring-boot-demo-dal'
-include 'spring-boot-demo-manager'
+include 'service'
+include 'web'
+include 'api'
+include 'dal'
+include 'manager'
+include 'common'
 
-findProject(":spring-boot-demo-service")?.name="spring-boot-demo-service"
-findProject(":spring-boot-demo-web")?.name="spring-boot-demo-web"
-findProject(":spring-boot-demo-api")?.name="spring-boot-demo-api"
-findProject(":spring-boot-demo-dal")?.name="spring-boot-demo-dal"
-findProject(":spring-boot-demo-manager")?.name="spring-boot-demo-manager"
+findProject(":service")?.name="service"
+findProject(":web")?.name="web"
+findProject(":api")?.name="api"
+findProject(":dal")?.name="dal"
+findProject(":manager")?.name="manager"
+findProject(":common")?.name="common"

@@ -1,5 +1,6 @@
 package com.chenhm.springboot.common;
 
+import com.chenhm.springboot.common.constant.BizConstants;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.util.StringUtils;
@@ -19,16 +20,20 @@ public class PageAdaptor {
      * @param pageQueryBO
      * @param <T>
      */
-    public static <T> void start(PageQueryBO<T> pageQueryBO) {
+    public static <T> Page start(PageQueryBO<T> pageQueryBO) {
 
         if (pageQueryBO.getPageEnable() != null && !pageQueryBO.getPageEnable()) {
-            return;
+            return null;
         }
         boolean count = pageQueryBO.getCount() == null ? false : pageQueryBO.getCount();
-        PageHelper.startPage(pageQueryBO.getPageNum(), pageQueryBO.getPageSize(), count);
+        int pageNum = pageQueryBO.getPageNum() == null ? BizConstants.DEFAULT_PAGE_NUM : pageQueryBO.getPageNum();
+        int pageSize = pageQueryBO.getPageSize() == null ? BizConstants.DEFAULT_PAGE_SIZE : pageQueryBO.getPageSize();
+
+        Page page = PageHelper.startPage(pageNum, pageSize, count);
         if (!StringUtils.isEmpty(pageQueryBO.getOrderBy())) {
             PageHelper.orderBy(pageQueryBO.getOrderBy());
         }
+        return page;
     }
 
     /**
@@ -38,11 +43,9 @@ public class PageAdaptor {
      * @param <T>
      * @return
      */
-    public static <T> PageResultBO<T> processResult(List<T> list) {
+    public static <T> PageResultBO<T> processResult(Page page, List<T> list) {
 
         PageResultBO<T> pageResultBO = new PageResultBO<>();
-        Page page = PageHelper.getLocalPage();
-
         pageResultBO.setData(list);
         if (page != null) {
             pageResultBO.setPageNum(page.getPageNum());

@@ -3,7 +3,7 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <contextName>spring-boot-demo</contextName>
 
-    <property name="LOGGING_PATH" value="${logging.path}" />
+    <property name="LOGGING_PATH" value="D://log" />
     <!-- direct log messages to stdout -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>

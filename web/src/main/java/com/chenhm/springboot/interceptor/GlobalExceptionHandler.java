@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
         String url = request.getRequestURL().toString();
         LOGGER.error("访问 {} 出错", url, e);
-        return ResponseUtils.fail(BizConstants.SYSTEM_ERROR);
+        return ResponseUtils.fail("");
     }
 
     @ExceptionHandler(AbstractException.class)

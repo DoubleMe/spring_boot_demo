@@ -9,7 +9,7 @@ import com.chenhm.springboot.manager.holiday.bo.HolidayConfigBO;
  * @date 2018/10/24 14:23
  * @since V1.0
  */
-public class HolidayTransformer {
+public class HolidayTransfer {
 
     public static HolidayConfigVO toVO(HolidayConfigBO holidayConfigBO) {
 

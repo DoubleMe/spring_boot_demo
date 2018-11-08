@@ -9,6 +9,8 @@ import com.chenhm.springboot.common.PageResultBO;
 import com.chenhm.springboot.manager.holiday.transform.HolidayConfigTransformer;
 import com.chenhm.springboot.mapper.holiday.HolidayConfigMapper;
 import com.chenhm.springboot.mapper.holiday.domain.HolidayConfigDO;
+import com.github.pagehelper.Page;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
  * @date 2018/10/23 19:33
  * @since V1.0
  */
+@Service
 public class HolidayConfigManagerImpl implements HolidayConfigManager {
 
     @Resource
@@ -52,12 +55,9 @@ public class HolidayConfigManagerImpl implements HolidayConfigManager {
     @Override
     public PageResultBO<HolidayConfigBO> list(PageQueryBO<HolidayConfigBO> pageQueryBO) {
 
-        PageAdaptor.start(pageQueryBO);
-
+        Page page = PageAdaptor.start(pageQueryBO);
         List<HolidayConfigDO> list = holidayConfigMapper.list(HolidayConfigTransformer.toDO(pageQueryBO.getQuery()));
-
-        List<HolidayConfigBO> configBOS = Lists.transform(list, HolidayConfigTransformer::toBO);
-        return PageAdaptor.processResult(configBOS);
+        return PageAdaptor.processResult(page, Lists.transform(list, HolidayConfigTransformer::toBO));
     }
 }
 

@@ -1,5 +1,7 @@
 package com.chenhm.springboot.interceptor;
 
+import com.chenhm.springboot.common.response.ResponseCode;
+import com.chenhm.springboot.common.response.ResponseUtils;
 import com.chenhm.springboot.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -38,7 +40,7 @@ public class GlobalInterceptor {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        return null;
+        return ResponseUtils.fail("");
     }
 
     /**

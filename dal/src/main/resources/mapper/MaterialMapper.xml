@@ -83,7 +83,7 @@
     </sql>
 
     <!--新增-->
-    <insert id="insert" parameterType="com.chenhm.springboot.mapper.holiday.domain.CntMaterialDO" >
+    <insert id="insert" parameterType="com.chenhm.springboot.mapper.material.domain.MaterialDO" >
         INSERT INTO cnt_material (
             id,
             material_code,

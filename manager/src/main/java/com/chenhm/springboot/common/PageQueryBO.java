@@ -43,6 +43,7 @@ public class PageQueryBO<T> {
      */
     private T query;
 
+
     private PageQueryBO() {
 
     }

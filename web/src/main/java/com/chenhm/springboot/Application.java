@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2018-08-08
  * @since 1.0.0
  */
-@MapperScan("com.chenhm.springboot")
+@MapperScan("com.chenhm.springboot.mapper")
 @SpringBootApplication
 public class Application {
 

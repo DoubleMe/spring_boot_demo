@@ -8,4 +8,16 @@ package com.chenhm.springboot.common.constant;
 public interface BizConstants {
 
     String SYSTEM_ERROR = "系统异常";
+
+    /**
+     * 默认分页数
+     */
+    int DEFAULT_PAGE_NUM = 1;
+
+    /**
+     * 默认分页大小
+     */
+    int DEFAULT_PAGE_SIZE = 10;
+
+
 }

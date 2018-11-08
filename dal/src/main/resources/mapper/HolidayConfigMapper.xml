@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--节假日配置表-->
-<mapper namespace="com.chenhm.springboot.mapper.HolidayConfigMapper">
+<mapper namespace="com.chenhm.springboot.mapper.holiday.HolidayConfigMapper">
 
     <!--the base resultMap-->
     <resultMap id="BaseResultMap" type="com.chenhm.springboot.mapper.holiday.domain.HolidayConfigDO">
@@ -40,10 +40,10 @@
         <include refid="Base_Column_List"/>
         FROM parking_holiday_config
         <where>
-            <if test="year != null">
+            <if test="holidayYear != null">
                 and holiday_year = #{year}
             </if>
-            <if test="type != null and type != 0">
+            <if test="holidayType != null and type != 0">
                 and holiday_type = #{type}
             </if>
         </where>
