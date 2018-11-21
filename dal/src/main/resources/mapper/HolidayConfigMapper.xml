@@ -41,10 +41,10 @@
         FROM parking_holiday_config
         <where>
             <if test="holidayYear != null">
-                and holiday_year = #{year}
+                and holiday_year = #{holidayYear}
             </if>
-            <if test="holidayType != null and type != 0">
-                and holiday_type = #{type}
+            <if test="holidayType != null and holidayType != 0">
+                and holiday_type = #{holidayType}
             </if>
         </where>
     </select>
@@ -53,9 +53,6 @@
     <update id="update">
         UPDATE parking_holiday_config
         <set>
-            <if test="id != null">
-                id = #{id},
-            </if>
             <if test="holidayYear != null">
                 holiday_year = #{holidayYear},
             </if>

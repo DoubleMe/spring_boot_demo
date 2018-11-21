@@ -48,6 +48,7 @@ public interface HolidayConfigMapper {
     /**
      * 列表查询
      *
+     * @param holidayConfigDO
      * @return List<HolidayConfigDO>
      */
     List<HolidayConfigDO> list(HolidayConfigDO holidayConfigDO);

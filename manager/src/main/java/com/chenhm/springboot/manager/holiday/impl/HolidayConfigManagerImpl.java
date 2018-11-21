@@ -1,12 +1,12 @@
 package com.chenhm.springboot.manager.holiday.impl;
 
-import com.chenhm.springboot.util.Lists;
+import com.chenhm.common.util.Lists;
+import com.chenhm.common.PageAdaptor;
+import com.chenhm.common.PageQuery;
+import com.chenhm.common.PageResult;
 import com.chenhm.springboot.manager.holiday.HolidayConfigManager;
 import com.chenhm.springboot.manager.holiday.bo.HolidayConfigBO;
-import com.chenhm.springboot.common.PageAdaptor;
-import com.chenhm.springboot.common.PageQueryBO;
-import com.chenhm.springboot.common.PageResultBO;
-import com.chenhm.springboot.manager.holiday.transform.HolidayConfigTransformer;
+import com.chenhm.springboot.manager.holiday.transform.HolidayConfigTransfer;
 import com.chenhm.springboot.mapper.holiday.HolidayConfigMapper;
 import com.chenhm.springboot.mapper.holiday.domain.HolidayConfigDO;
 import com.github.pagehelper.Page;
@@ -27,37 +27,37 @@ public class HolidayConfigManagerImpl implements HolidayConfigManager {
     private HolidayConfigMapper holidayConfigMapper;
 
     @Override
-    public void insert(HolidayConfigBO holidayConfigBO) {
+    public boolean insert(HolidayConfigBO holidayConfigBO) {
 
-        HolidayConfigDO holidayConfigDO = HolidayConfigTransformer.toDO(holidayConfigBO);
-        holidayConfigMapper.insert(holidayConfigDO);
+        HolidayConfigDO holidayConfigDO = HolidayConfigTransfer.toDO(holidayConfigBO);
+        return holidayConfigMapper.insert(holidayConfigDO) > 0;
     }
 
     @Override
-    public void update(HolidayConfigBO holidayConfigBO) {
+    public boolean update(HolidayConfigBO holidayConfigBO) {
 
-        HolidayConfigDO holidayConfigDO = HolidayConfigTransformer.toDO(holidayConfigBO);
-        holidayConfigMapper.update(holidayConfigDO);
+        HolidayConfigDO holidayConfigDO = HolidayConfigTransfer.toDO(holidayConfigBO);
+        return holidayConfigMapper.update(holidayConfigDO) > 0;
     }
 
     @Override
     public HolidayConfigBO getById(Long id) {
 
-        return HolidayConfigTransformer.toBO(holidayConfigMapper.getById(id));
+        return HolidayConfigTransfer.toBO(holidayConfigMapper.getById(id));
     }
 
     @Override
-    public void delById(Long id) {
+    public boolean delById(Long id) {
 
-        holidayConfigMapper.delById(id);
+        return holidayConfigMapper.delById(id) > 0;
     }
 
     @Override
-    public PageResultBO<HolidayConfigBO> list(PageQueryBO<HolidayConfigBO> pageQueryBO) {
+    public PageResult<HolidayConfigBO> list(PageQuery<HolidayConfigBO> pageQueryBO) {
 
         Page page = PageAdaptor.start(pageQueryBO);
-        List<HolidayConfigDO> list = holidayConfigMapper.list(HolidayConfigTransformer.toDO(pageQueryBO.getQuery()));
-        return PageAdaptor.processResult(page, Lists.transform(list, HolidayConfigTransformer::toBO));
+        List<HolidayConfigDO> list = holidayConfigMapper.list(HolidayConfigTransfer.toDO(pageQueryBO.getQuery()));
+        return PageAdaptor.processResult(page, Lists.transform(list, HolidayConfigTransfer::toBO));
     }
 }
 

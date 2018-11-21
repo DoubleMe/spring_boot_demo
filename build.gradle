@@ -57,11 +57,10 @@ project("dal") {
         compile 'org.projectlombok:lombok:+'
     }
 }
+project("common"){
 
-project("manager") {
-
-    dependencies {
-        compile project(":dal")
+    dependencies{
+        compile 'org.projectlombok:lombok:+'
         compile "org.springframework.boot:spring-boot-starter:$spring_boot_version"
         compile "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
         compile "org.springframework.boot:spring-boot-starter-actuator:$spring_boot_version"
@@ -69,7 +68,15 @@ project("manager") {
         compile "org.springframework.boot:spring-boot-starter-aop:$spring_boot_version"
         compile "org.springframework.boot:spring-boot-starter-data-redis:$spring_boot_version"
         compile "com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3"
-        
+    }
+}
+
+project("manager") {
+
+    dependencies {
+        compile project(":common")
+        compile project(":dal")
+
         testCompile "org.springframework.boot:spring-boot-starter-test:$spring_boot_version"
     }
 }

@@ -2,8 +2,8 @@ package com.chenhm.springboot.manager.holiday;
 
 
 import com.chenhm.springboot.manager.holiday.bo.HolidayConfigBO;
-import com.chenhm.springboot.common.PageQueryBO;
-import com.chenhm.springboot.common.PageResultBO;
+import com.chenhm.common.PageQuery;
+import com.chenhm.common.PageResult;
 
 /**
  * 节假日配置表
@@ -19,7 +19,7 @@ public interface HolidayConfigManager {
      * @param holidayConfigBO
      * @return int
      */
-    void insert(HolidayConfigBO holidayConfigBO);
+    boolean insert(HolidayConfigBO holidayConfigBO);
 
     /**
      * 更新
@@ -27,7 +27,7 @@ public interface HolidayConfigManager {
      * @param holidayConfigBO
      * @return int
      */
-    void update(HolidayConfigBO holidayConfigBO);
+    boolean update(HolidayConfigBO holidayConfigBO);
 
     /**
      * 主键查询
@@ -43,7 +43,7 @@ public interface HolidayConfigManager {
      * @param id
      * @return int
      */
-    void delById(Long id);
+    boolean delById(Long id);
 
     /**
      * 列表查询 pageQueryBO
@@ -51,6 +51,6 @@ public interface HolidayConfigManager {
      * @param pageQueryBO
      * @return List<HolidayConfigDO>
      */
-    PageResultBO<HolidayConfigBO> list(PageQueryBO<HolidayConfigBO> pageQueryBO);
+    PageResult<HolidayConfigBO> list(PageQuery<HolidayConfigBO> pageQueryBO);
 
 }

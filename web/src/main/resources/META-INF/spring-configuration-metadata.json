@@ -2,12 +2,12 @@
   "hints": [],
   "groups": [
     {
-      "sourceType": "com.chenhm.springboot.common.mybatis.SqlHelperProperties",
+      "sourceType": "com.chenhm.common.mybatis.SqlHelperProperties",
       "name": "sqlhelper",
-      "type": "com.chenhm.springboot.common.mybatis.SqlHelperProperties"
+      "type": "com.chenhm.common.mybatis.SqlHelperProperties"
     },
     {
-      "sourceType": "com.chenhm.springboot.common.mybatis.SqlHelperAutoConfiguration",
+      "sourceType": "com.chenhm.common.mybatis.SqlHelperAutoConfiguration",
       "name": "sqlhelper",
       "sourceMethod": "sqlHelperProperties()",
       "type": "java.util.Properties"
@@ -15,7 +15,7 @@
   ],
   "properties": [
     {
-      "sourceType": "com.chenhm.springboot.common.mybatis.SqlHelperProperties",
+      "sourceType": "com.chenhm.common.mybatis.SqlHelperProperties",
       "name": "sqlhelper.show-sql",
       "type": "java.lang.Boolean"
     }
