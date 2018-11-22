@@ -70,8 +70,7 @@ public class GlobalInterceptor {
     private void accessLog(ProceedingJoinPoint joinPoint) {
 
         String requestURI = request.getRequestURI();
-        log.info("=====start==== traceId【{}】访问【{}】,参数：【{}】",
-                LogTraceThreadLocal.getTraceId(), requestURI, JsonUtils.toJSONString(joinPoint.getArgs()));
+        log.info("=====start==== 访问【{}】,参数：【{}】", requestURI, JsonUtils.toJSONString(joinPoint.getArgs()));
     }
 
     /**
@@ -83,8 +82,7 @@ public class GlobalInterceptor {
 
 
         String requestURI = request.getRequestURI();
-        log.info("=====end==== traceId【{}】,访问【{}】耗时【{}】,返回值：【{}】",
-                LogTraceThreadLocal.getTraceId(), requestURI, LogTraceThreadLocal.costTime(), JsonUtils.toJSONString(result));
+        log.info("=====end==== 访问【{}】耗时【{}】,返回值：【{}】", requestURI, LogTraceThreadLocal.costTime(), JsonUtils.toJSONString(result));
         LogTraceThreadLocal.end();
     }
 
@@ -96,7 +94,6 @@ public class GlobalInterceptor {
     private void accessError(Throwable throwable) {
 
         String requestURI = request.getRequestURI();
-        log.error("=====end==== traceId【{}】,访问【{}】异常：【{}】",
-                LogTraceThreadLocal.getTraceId(), requestURI, throwable);
+        log.error("=====end==== 访问【{}】异常：【{}】", requestURI, throwable);
     }
 }

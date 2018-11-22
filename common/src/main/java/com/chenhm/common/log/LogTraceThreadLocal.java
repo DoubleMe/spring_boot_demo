@@ -1,6 +1,8 @@
 package com.chenhm.common.log;
 
 
+import org.slf4j.MDC;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class LogTraceThreadLocal {
 
     private static final ThreadLocal<LogTrace> LOG_TRACE = new ThreadLocal<>();
 
+    private static final String TRACE_ID = "TRACEID";
+
     /**
      * 开始日志记录
      *
@@ -30,6 +34,7 @@ public class LogTraceThreadLocal {
     public static void start(boolean syn) {
 
         LOG_TRACE.set(new LogTrace(syn));
+        MDC.put(TRACE_ID,getTraceId());
     }
 
     /**
@@ -38,6 +43,7 @@ public class LogTraceThreadLocal {
     public static void end() {
 
         LOG_TRACE.remove();
+        MDC.remove(TRACE_ID);
     }
 
     /**

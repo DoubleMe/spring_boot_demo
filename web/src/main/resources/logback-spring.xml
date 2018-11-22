@@ -3,15 +3,16 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <contextName>spring-boot-demo</contextName>
 
-    <property name="LOGGING_PATH" value="D://log" />
+    <property name="LOGGING_PATH" value="D://log"/>
+    <property name="SERVICE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{56} - traceId:[%X{TRACEID}] - %msg%n"/>
     <!-- direct log messages to stdout -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%t] %-5p |-%c{35}:%L - %m %n</pattern>
+            <pattern>${SERVICE_PATTERN}</pattern>
         </encoder>
     </appender>
-    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
     <!-- common -->
     <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -27,7 +28,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss}[%t]%-5p %c{36}.%M\(%L\) %m%n</pattern>
+            <pattern>${SERVICE_PATTERN}</pattern>
         </encoder>
     </appender>
 
@@ -51,7 +52,7 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%t] %5p |-%c{35}:%L - %m %n</pattern>
+            <pattern>${SERVICE_PATTERN}</pattern>
         </encoder>
     </appender>
 
@@ -69,27 +70,20 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss}[%t]%-5p %c{36}.%M\(%L\) %m%n</pattern>
+            <pattern>${SERVICE_PATTERN}</pattern>
         </encoder>
     </appender>
 
     <!-- 定义SQL日志 -->
-    <logger name="SQL" level="info" >
-        <appender-ref ref="SQL" />
+    <logger name="SQL" level="info">
+        <appender-ref ref="SQL"/>
     </logger>
 
-    <springProfile name="prod">
-        <root level="INFO">
-            <appender-ref ref="FILEINFO"/>
-            <appender-ref ref="FILEERROR"/>
-        </root>
-    </springProfile>
+    <root level="INFO">
+        <appender-ref ref="FILEINFO"/>
+        <appender-ref ref="FILEERROR"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
 
-
-    <springProfile name="dev">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-    </springProfile>
 
 </configuration>
