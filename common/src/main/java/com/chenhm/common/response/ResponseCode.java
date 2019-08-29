@@ -1,11 +1,13 @@
 package com.chenhm.common.response;
 
+import com.chenhm.common.exception.ErrorCode;
+
 /**
  * @author chen-hongmin
  * @date 2018/8/15 9:40
  * @since V1.0
  */
-public enum ResponseCode {
+public enum ResponseCode implements ErrorCode {
 
     SUCCESS(200, "成功"),
     FAIL(1001, "业务异常"),
@@ -29,23 +31,18 @@ public enum ResponseCode {
         this.desc = desc;
     }
 
+    @Override
     public int getCode() {
 
         return code;
     }
 
-    public void setCode(int code) {
 
-        this.code = code;
-    }
-
-    public String getDesc() {
+    @Override
+    public String getMessage() {
 
         return desc;
     }
 
-    public void setDesc(String desc) {
 
-        this.desc = desc;
-    }
 }

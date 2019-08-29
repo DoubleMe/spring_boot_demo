@@ -3,7 +3,7 @@ package com.chenhm.springboot.interceptor;
 import com.chenhm.common.log.LogTraceThreadLocal;
 import com.chenhm.common.util.JsonUtils;
 import com.chenhm.common.response.ResponseCode;
-import com.chenhm.common.response.ResponseUtils;
+import com.chenhm.common.response.ResponseBuilder;
 import com.chenhm.common.util.ValidateUtils;
 import com.chenhm.common.util.validate.ValidateResult;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ public class GlobalInterceptor {
                 for (Object arg : args) {
                     ValidateResult validate = ValidateUtils.validate(arg);
                     if (validate.isError()) {
-                        return ResponseUtils.fail(validate.getMessage());
+                        return ResponseBuilder.fail(validate.getMessage());
                     }
                 }
             }
@@ -59,7 +59,7 @@ public class GlobalInterceptor {
         } finally {
             accessAfterLog(result);
         }
-        return ResponseUtils.fail(ResponseCode.SYSTEM_ERROR);
+        return ResponseBuilder.fail(ResponseCode.SYSTEM_ERROR);
     }
 
     /**

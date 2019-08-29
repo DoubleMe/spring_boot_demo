@@ -4,7 +4,7 @@ import com.chenhm.common.PageQuery;
 import com.chenhm.common.PageResult;
 import com.chenhm.springboot.controller.holiday.response.HolidayConfigVO;
 import com.chenhm.common.response.Response;
-import com.chenhm.common.response.ResponseUtils;
+import com.chenhm.common.response.ResponseBuilder;
 import com.chenhm.springboot.controller.holiday.resquest.HolidayListRequest;
 import com.chenhm.springboot.controller.holiday.transform.HolidayTransfer;
 import com.chenhm.springboot.manager.holiday.HolidayConfigManager;
@@ -34,9 +34,8 @@ public class HolidayController {
     public Response<PageResult<HolidayConfigVO>> list(HolidayListRequest request) {
 
         PageQuery<HolidayConfigBO> pageQueryBO = PageQuery.instance(request, HolidayTransfer::listReqToBO);
-        pageQueryBO.pageSize(request.getPageSize()).pageNum(request.getPageNum());
 
         PageResult<HolidayConfigBO> pageResultBO = holidayConfigManager.list(pageQueryBO);
-        return ResponseUtils.loadPageList(pageResultBO, HolidayTransfer::toVO);
+        return ResponseBuilder.loadPageList(pageResultBO, HolidayTransfer::toVO);
     }
 }

@@ -9,7 +9,7 @@ import com.chenhm.common.response.ResponseCode;
  * @date 2018/8/15 9:58
  * @since V1.0
  */
-public class AbstractException extends RuntimeException {
+public abstract class AbstractException extends RuntimeException {
 
     private int code = ResponseCode.FAIL.getCode();
 
@@ -41,6 +41,20 @@ public class AbstractException extends RuntimeException {
         this.message = message;
     }
 
+    public AbstractException(ErrorCode errorCode) {
+
+        super(errorCode.getMessage());
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
+    }
+
+    public AbstractException(ErrorCode errorCode, Throwable cause) {
+
+        super(errorCode.getMessage(),cause);
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
+    }
+
     public int getCode() {
 
         return code;
@@ -51,4 +65,11 @@ public class AbstractException extends RuntimeException {
 
         return message;
     }
+
+    /**
+     * 异常级别 不同的异常可以有不同的日志打印
+     *
+     * @return
+     */
+    protected abstract ErrorLevel errorLevel();
 }

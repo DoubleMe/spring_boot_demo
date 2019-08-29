@@ -1,7 +1,7 @@
 package com.chenhm.springboot.interceptor;
 
 import com.chenhm.common.response.Response;
-import com.chenhm.common.response.ResponseUtils;
+import com.chenhm.common.response.ResponseBuilder;
 import com.chenhm.common.exception.AbstractException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 
         String url = request.getRequestURL().toString();
         LOGGER.error("访问 {} 出错", url, e);
-        return ResponseUtils.fail("");
+        return ResponseBuilder.fail("");
     }
 
     @ExceptionHandler(AbstractException.class)
@@ -35,6 +35,6 @@ public class GlobalExceptionHandler {
 
         String url = request.getRequestURL().toString();
         LOGGER.error("访问 {} 出错", url, e);
-        return ResponseUtils.fail(e.getCode(), e.getMessage());
+        return ResponseBuilder.fail(e.getCode(), e.getMessage());
     }
 }

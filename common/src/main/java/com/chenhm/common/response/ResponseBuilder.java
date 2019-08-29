@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @date 2018/8/14 13:48
  * @since V1.0
  */
-public class ResponseUtils {
+public class ResponseBuilder {
 
     /**
      * response with no data

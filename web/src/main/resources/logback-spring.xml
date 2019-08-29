@@ -3,8 +3,10 @@
 <configuration scan="true" scanPeriod="30 seconds">
     <contextName>spring-boot-demo</contextName>
 
-    <property name="LOGGING_PATH" value="D://log"/>
-    <property name="SERVICE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{56} - traceId:[%X{TRACEID}] - %msg%n"/>
+    <property name="PROJECT_NAME" value="spring-boot-demo"/>
+    <property name="MAX_DAY" value="30"/>
+    <property name="LOGGING_PATH" value="/logs/spring-boot-demo"/>
+    <property name="SERVICE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{56} - traceId:[%X{TRACE_ID}] - %msg%n"/>
     <!-- direct log messages to stdout -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <Target>System.out</Target>
@@ -15,17 +17,35 @@
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
     <!-- common -->
-    <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGGING_PATH}/spring-boot-demo.log</file>
+    <appender name="COMMON" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_PATH}/${PROJECT_NAME}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${LOGGING_PATH}/spring-boot-demo.%d{yyyy-MM-dd}.%i.log.gz
+                ${LOGGING_PATH}/${PROJECT_NAME}.%d{yyyy-MM-dd}.%i.log.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1024MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxHistory>${MAX_DAY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${SERVICE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 访问日志 -->
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_PATH}/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOGGING_PATH}/access.%d{yyyy-MM-dd}.%i.log.gz
+            </FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1024MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${MAX_DAY}</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${SERVICE_PATTERN}</pattern>
@@ -33,8 +53,8 @@
     </appender>
 
     <!-- errorFile -->
-    <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGGING_PATH}/spring-boot-demo-error.log</file>
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_PATH}/error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -43,13 +63,13 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${LOGGING_PATH}/error/spring-boot-demo-error.%d{yyyy-MM-dd}.%i.log.gz
+                ${LOGGING_PATH}/error/error.%d{yyyy-MM-dd}.%i.log.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1024MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxHistory>{MAX_DAY}</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${SERVICE_PATTERN}</pattern>
@@ -58,16 +78,16 @@
 
     <!-- SQL 文件 -->
     <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGGING_PATH}/spring-boot-demo-sql.log</file>
+        <file>${LOGGING_PATH}/sql.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>
-                ${LOGGING_PATH}/sql/spring-boot-demo-sql.log.%d.%i.gz
+                ${LOGGING_PATH}/sql/sql.log.%d.%i.gz
             </FileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>1024MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>30</maxHistory>
+            <maxHistory>{MAX_DAY}</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${SERVICE_PATTERN}</pattern>
@@ -75,13 +95,18 @@
     </appender>
 
     <!-- 定义SQL日志 -->
-    <logger name="SQL" level="info">
+    <logger name="SQL" level="info" additivity="false">
         <appender-ref ref="SQL"/>
     </logger>
 
+    <!-- 定义SQL日志 -->
+    <logger name="ACCESS" level="info" additivity="false">
+        <appender-ref ref="ACCESS"/>
+    </logger>
+
     <root level="INFO">
-        <appender-ref ref="FILEINFO"/>
-        <appender-ref ref="FILEERROR"/>
+        <appender-ref ref="COMMON"/>
+        <appender-ref ref="ERROR"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 

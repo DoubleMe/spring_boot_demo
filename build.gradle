@@ -12,19 +12,6 @@ ext {
     spring_boot_version = '2.0.2.RELEASE'
 }
 
-task init << {
-    println '+-----------------------------------------------------------+'
-    println '|                                                           |'
-    println "| B U I L D I N G $project.name $version $project.group"
-    println '|                                                           |'
-    println '+-----------------------------------------------------------+'
-}
-
-task cleanAll << {
-    println "Clean project.."
-    delete buildDir
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'

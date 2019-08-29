@@ -24,7 +24,7 @@ public class LogTraceThreadLocal {
 
     private static final ThreadLocal<LogTrace> LOG_TRACE = new ThreadLocal<>();
 
-    private static final String TRACE_ID = "TRACEID";
+    private static final String TRACE_ID = "TRACE_ID";
 
     /**
      * 开始日志记录

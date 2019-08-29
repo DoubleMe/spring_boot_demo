@@ -1,4 +1,4 @@
-package com.chenhm.springboot.common;
+package com.chenhm.common;
 
 import lombok.Data;
 

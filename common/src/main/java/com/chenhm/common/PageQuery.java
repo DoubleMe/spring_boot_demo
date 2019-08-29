@@ -13,6 +13,7 @@ import java.util.function.Function;
 @Data
 public class PageQuery<T> {
 
+
     /**
      * 页码
      */
@@ -48,18 +49,22 @@ public class PageQuery<T> {
 
     }
 
-    public static <T> PageQuery<T> instance(T query) {
+    public static <T extends PageRequest> PageQuery<T > instance(T query) {
 
         PageQuery<T> pageQueryBO = new PageQuery<>();
         pageQueryBO.setQuery(query);
+        pageQueryBO.setPageNum(query.getPageNum());
+        pageQueryBO.setPageSize(query.getPageSize());
 
         return pageQueryBO;
     }
 
-    public static <T, R> PageQuery<R> instance(T query, Function<T, R> function) {
+    public static <T extends PageRequest, R> PageQuery<R> instance(T query, Function<T, R> function) {
 
         PageQuery<R> pageQueryBO = new PageQuery<>();
         pageQueryBO.setQuery(function.apply(query));
+        pageQueryBO.setPageNum(query.getPageNum());
+        pageQueryBO.setPageSize(query.getPageSize());
 
         return pageQueryBO;
     }
