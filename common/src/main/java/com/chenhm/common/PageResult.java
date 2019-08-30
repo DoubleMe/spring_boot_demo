@@ -2,6 +2,7 @@ package com.chenhm.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @since V1.0
  */
 @Data
-public class PageResult<T> {
+public class PageResult<T> implements Serializable {
 
     /**
      * 页码

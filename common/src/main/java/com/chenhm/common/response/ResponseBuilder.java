@@ -58,7 +58,7 @@ public class ResponseBuilder {
 
         Response<T> response = new Response<>();
         response.setCode(responseCode.getCode());
-        response.setMsg(responseCode.getDesc());
+        response.setMsg(responseCode.getMessage());
         response.setData(data);
 
         return response;
@@ -83,7 +83,7 @@ public class ResponseBuilder {
      */
     public static Response<String> fail(ResponseCode responseCode) {
 
-        return response(responseCode.getCode(),responseCode.getDesc());
+        return response(responseCode.getCode(),responseCode.getMessage());
     }
 
 
